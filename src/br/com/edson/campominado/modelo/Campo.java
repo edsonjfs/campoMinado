@@ -19,8 +19,22 @@ public class Campo {
 		this.coluna = coluna;
 	}
 	
-	
-	
-	
-
+	boolean adicionarVizinho(Campo isVizinho) {
+		int diferencaLinha = Math.abs(linha - isVizinho.linha);
+		int diferencaColuna = Math.abs(coluna - isVizinho.coluna);	
+		int somaDasDiferencas = diferencaColuna + diferencaLinha;
+		
+		if (somaDasDiferencas == 1) {
+			vizinhos.add(isVizinho);
+			return true;
+		} else if (somaDasDiferencas == 2) {
+			vizinhos.add(isVizinho);
+			return true;
+		}
+		
+		return false;	
+	}
 }
+
+	
+	
