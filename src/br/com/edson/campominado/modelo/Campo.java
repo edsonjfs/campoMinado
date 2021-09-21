@@ -3,6 +3,8 @@ package br.com.edson.campominado.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.edson.campominado.excecao.ExplosaoException;
+
 public class Campo {
 	
 	private final int linha;
@@ -34,6 +36,25 @@ public class Campo {
 		
 		return false;	
 	}
+	
+	void alternarMarcacaoDoCampo(){
+		if (!aberto) {
+			marcado = !marcado;
+		}
+	}
+	
+	boolean abrir() {
+		if (!aberto && !marcado) {
+			aberto = true;
+			
+			if(minado) {
+				throw new ExplosaoException();
+			}
+		}
+		return false;
+	}
+	
+	
 }
 
 	
