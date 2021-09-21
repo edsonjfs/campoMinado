@@ -47,13 +47,78 @@ public class Campo {
 		if (!aberto && !marcado) {
 			aberto = true;
 			
-			if(minado) {
+			if (minado) {
 				throw new ExplosaoException();
 			}
+			
+			if (vizinhancaSegura()) {
+				vizinhos.forEach(v -> v.abrir());
+			}
+			return true;
+		}else {
+			return false;
 		}
-		return false;
 	}
 	
+	boolean vizinhancaSegura() {
+		return vizinhos.stream().noneMatch(v -> v.minado);
+		}
+	
+	void colocarMinasNoCampo() {
+		if(!minado) {
+			minado = true;
+		}
+	}
+	
+	public boolean isMarcado() {
+		return marcado;
+	}
+	
+	public boolean isMinado() {
+		return minado;
+	}
+	
+	public boolean isAberto() {
+		return aberto;
+	}
+
+	public int getLinha() {
+		return linha;
+	}
+
+	public int getColuna() {
+		return coluna;
+	}
+	
+	boolean objetivoAlcancado() {
+		boolean desvendado = !minado && aberto;
+		boolean bombaMarcada = minado && marcado;
+		return desvendado || bombaMarcada;
+	}
+	
+	long minasNaVizinhanca() {
+		return vizinhos.stream().filter(v -> v.minado).count();
+	}
+	
+	void reiniciar() {
+		aberto = false;
+		marcado = false;
+		minado = false;
+	}
+	
+	public String toString() {
+		if(marcado) {
+			return "x";
+		}else if(aberto && minado){
+			return "*";
+		}else if(aberto && minasNaVizinhanca() > 0) {
+			return Long.toString(minasNaVizinhanca());
+		}else if(aberto) {
+			return ".";
+		}else {
+			return "?";
+		}
+	}
 	
 }
 
